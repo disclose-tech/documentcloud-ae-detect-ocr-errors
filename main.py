@@ -1,38 +1,31 @@
-"""
-This is a hello world add-on for DocumentCloud.
-
-It demonstrates how to write a add-on which can be activated from the
-DocumentCloud add-on system and run using Github Actions.  It receives data
-from DocumentCloud via the request dispatch and writes data back to
-DocumentCloud using the standard API
-"""
+import json
 
 from documentcloud.addon import AddOn
 
 
-class HelloWorld(AddOn):
+class DetectOCRErrors(AddOn):
     """An example Add-On for DocumentCloud."""
 
     def main(self):
         """The main add-on functionality goes here."""
-        # fetch your add-on specific data
-        name = self.data.get("name", "world")
 
-        self.set_message("Hello World start!")
+        project_id = self.data.get("project")
 
-        # add a hello note to the first page of each selected document
+        # Load known errors
+        with open("first_page_errors.json", "r") as file:
+            known_errors = json.load(file)
+
         for document in self.get_documents():
-            # get_documents will iterate through all documents efficiently,
-            # either selected or by query, dependeing on which is passed in
-            document.annotations.create(f"Hello {name}!", 0)
+            
+            if project_id in document.projects:
 
-        with open("hello.txt", "w+") as file_:
-            file_.write("Hello world!")
-            self.upload_file(file_)
-
-        self.set_message("Hello World end!")
-        self.send_mail("Hello World!", "We finished!")
-
+                first_page_text = doc.get_page_text(1)
+                if first_page_text in known_errors:
+                    doc.data["form_error"] = "yes"
+                    doc.save()
+                else:
+                    doc.data["form_error"] = "no"
+                    doc.save()
 
 if __name__ == "__main__":
-    HelloWorld().main()
+    DetectOCRErrors().main()
