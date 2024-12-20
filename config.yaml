@@ -1,5 +1,5 @@
 title: AE Detect OCR Errors
-description: Add-On to detect OCR errors on AE documents
+description: Add-On to detect OCR errors in AE documents
 type: object
 documents: []
 properties:

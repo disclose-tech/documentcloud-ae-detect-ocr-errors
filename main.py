@@ -7,7 +7,6 @@ class DetectOCRErrors(AddOn):
     """An example Add-On for DocumentCloud."""
 
     def main(self):
-        """The main add-on functionality goes here."""
 
         project_id = self.data.get("project")
 
