@@ -1,16 +1,17 @@
 title: AE Detect OCR Errors
-description: This is an updated simple test add-on
+description: Add-On to detect OCR errors on AE documents
 type: object
 documents: []
 properties:
-  name:
-    project: Project
+  project:
+    title: Project ID
     type: integer
 required:
   - project
 categories: 
   - extraction
+version: 2
+
 eventOptions:
   events:
     - upload
-version: 2
