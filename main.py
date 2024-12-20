@@ -16,16 +16,17 @@ class DetectOCRErrors(AddOn):
             known_errors = json.load(file)
 
         for document in self.get_documents():
-            
+
             if project_id in document.projects:
 
-                first_page_text = doc.get_page_text(1)
+                first_page_text = document.get_page_text(1)
                 if first_page_text in known_errors:
-                    doc.data["form_error"] = "yes"
-                    doc.save()
+                    document.data["form_error"] = "yes"
+                    document.save()
                 else:
-                    doc.data["form_error"] = "no"
-                    doc.save()
+                    document.data["form_error"] = "no"
+                    document.save()
+
 
 if __name__ == "__main__":
     DetectOCRErrors().main()
