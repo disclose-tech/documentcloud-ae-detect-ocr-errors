@@ -8,7 +8,12 @@ class DetectOCRErrors(AddOn):
 
     def main(self):
 
+        # Inputs
         project_id = self.data.get("project")
+
+        fix_errors = self.data.get("fix_errors")
+        fix_max_pages = self.data.get("fix_max_pages")
+        fix_only_if_no_depts = self.data.get("fix_only_if_no_depts")
 
         # Load known errors
         with open("first_page_errors.json", "r") as file:
@@ -22,6 +27,25 @@ class DetectOCRErrors(AddOn):
                 if first_page_text in known_errors:
                     document.data["form_error"] = "yes"
                     document.save()
+
+                    if fix_errors:
+
+                        if document.pages <= fix_max_pages or fix_max_pages == 0:
+
+                            if (
+                                fix_only_if_no_depts == False
+                                or "departments" not in document.data
+                            ):
+
+                                self.client.post(
+                                    "addon_runs/",
+                                    json={
+                                        "addon": 544,
+                                        "parameters": {"to_tag": True},
+                                        "documents": [document.id],
+                                        "dismissed": True,
+                                    },
+                                )
                 else:
                     document.data["form_error"] = "no"
                     document.save()
