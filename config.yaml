@@ -11,7 +11,7 @@ properties:
     type: boolean
     default: false
   fix_max_pages:
-    title: Fix only if document has less than X pages (9 for no limit)
+    title: Fix only if document has less than X pages (0 for no limit)
     type: integer
     default: 50
   fix_only_if_no_depts:
