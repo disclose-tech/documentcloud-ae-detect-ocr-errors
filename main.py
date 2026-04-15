@@ -4,9 +4,14 @@ from documentcloud.addon import AddOn
 
 
 class DetectOCRErrors(AddOn):
-    """An example Add-On for DocumentCloud."""
+    """Detect OCR Errors on forms for AE docs"""
 
     def main(self):
+
+        # User agent
+        self.client.session.headers.update(
+            {"User-Agent": "Disclose AE Detect OCR Errors Add-On"}
+        )
 
         # Inputs
         project_id = self.data.get("project")
