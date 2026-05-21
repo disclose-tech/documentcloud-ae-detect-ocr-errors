@@ -8,14 +8,21 @@ properties:
     type: integer
   fix_errors:
     title: Fix errors
+    description: Send the documents with errors to the Azure OCR Add-On for reprocessing.
     type: boolean
     default: false
   fix_max_pages:
     title: Fix only if document has less than X pages (0 for no limit)
     type: integer
     default: 50
-  fix_only_if_no_depts:
-    title: Fix only if the documents has no tagged departments
+  time_limit:
+    title: Time limit
+    type: integer
+    default: 40
+    description: Max minutes the add-on should run for.
+  dry_run:
+    title: Dry run
+    description: If active, no document will be modified.
     type: boolean
     default: true
 required:
@@ -26,4 +33,6 @@ version: 2
 
 eventOptions:
   events:
-    - upload
+    - hourly
+    - daily
+    - weekly
